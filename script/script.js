@@ -1,7 +1,7 @@
 // Showing input digit
-function addDigit(x){
+function addDigit(digit){
     var inputValue = document.getElementById('screen').value;
-    document.getElementById('screen').value = inputValue + x;
+    document.getElementById('screen').value = inputValue + digit;
 }
 
 // Clear all given digits
@@ -22,7 +22,10 @@ document.getElementById('pinGenerator').addEventListener('click',function(){
 })
 
 // Check whether the pin is matched or mismatched
-document.getElementById('submitButton').addEventListener('click',function(){
+document.getElementById('submitButton').addEventListener('click',check)
+
+// Pin checker function
+function check(){
     const check = document.getElementById('screen').value;
     if(document.getElementById('pinValue').value == ""){
         alert("Please generate the pin first")
@@ -36,24 +39,31 @@ document.getElementById('submitButton').addEventListener('click',function(){
         document.getElementById('leftTry').innerText = 3;
     }
     else{
-        document.getElementById("matched").style.display = "none";
-        document.getElementById('countDown').style.display = "none";
-        document.getElementById("mismatched").style.display = "block";
-        document.getElementById('leftTry').innerText -= 1;
-        if(document.getElementById('leftTry').innerText == 0){
-            document.getElementById('message').style.display = "block";
-            document.getElementById("mismatched").style.display = "none";
-
-            countDown();
-            setTimeout(function(){
-                document.getElementById('leftTry').innerText = 3
-                document.getElementById('message').style.display = "none";
-                document.getElementById("mismatched").style.display = "none";
-            },61000);       
-        }
+        mismatched();
     }
     document.getElementById('screen').value = "";
-})
+}
+
+// mismatched pin waring message and try left counter
+function mismatched(){
+    document.getElementById("matched").style.display = "none";
+    document.getElementById("countDown").style.display = "none";
+    document.getElementById("mismatched").style.display = "block";
+    document.getElementById("leftTry").innerText -= 1;
+    if(document.getElementById('leftTry').innerText == 0){
+        document.getElementById('message').style.display = "block";
+        document.getElementById("mismatched").style.display = "none";
+        document.getElementById('submitButton').removeEventListener("click",check)
+
+        countDown();
+        setTimeout(function(){
+            document.getElementById('leftTry').innerText = 3
+            document.getElementById('message').style.display = "none";
+            document.getElementById("mismatched").style.display = "none";
+            document.getElementById('submitButton').addEventListener('click',check)
+        },61000);       
+    }
+}
 
 // Again try countDown function
 function countDown(){
@@ -71,5 +81,4 @@ function countDown(){
             document.getElementById('countDown').innerText = 'Try again'
         }
     }
-
 }
