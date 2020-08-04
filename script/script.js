@@ -39,13 +39,13 @@ function check(){
         document.getElementById('leftTry').innerText = 3;
     }
     else{
-        noTry();
+        mismatched();
     }
     document.getElementById('screen').value = "";
 }
 
 // mismatched pin waring message and try left counter
-function noTry(){
+function mismatched(){
     document.getElementById("matched").style.display = "none";
     document.getElementById("countDown").style.display = "none";
     document.getElementById("mismatched").style.display = "block";
